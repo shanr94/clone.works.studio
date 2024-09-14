@@ -2,14 +2,19 @@ const scroll = new LocomotiveScroll({
   el: document.querySelector(".main"),
   smooth: true,
 });
-//declaring variable to dynamically determine loader direction for each page
-let loaderDirection = "";
-//getting currentPage that will be used in code for dynamic page functions
-let currentPage = window.location.pathname;
-//declaring variable to store all nav bar links
-const navLinks = document.querySelectorAll("#nav-right .box a");
-//declaring variable to store nav bar icon image element
+
+//declaring constant to store nav bar icon image element
 const menuIcon = document.querySelector("nav .icon img");
+//declaring constant to store all nav bar links
+const navLinks = document.querySelectorAll("#nav-right .box a");
+
+let ImgContainerArry = [];
+//declaring variable to store loader direction for each page
+let loaderDirection = "";
+//declaring variable to store activePage info that will be used in code for dynamic page functions
+let currentPage = window.location.pathname;
+//variable to store window's width
+let windowWidth;
 
 //function controling loader functionality when page is refreshed. A small Video plays and vanishes.
 const loaderHandler = () => {
@@ -70,7 +75,7 @@ const loaderHandler = () => {
 const activePageHandler = () => {
   navLinks.forEach((link) => {
     //underline active page
-    if (link.href.includes(currentPage)) {
+    if (link.href.includes(currentPage) || link.href.includes("studies")) {
       link.parentElement.classList.add("active");
     } else {
       if (!link.href.includes("index.html")) {
@@ -80,10 +85,17 @@ const activePageHandler = () => {
   });
   //setting logo and nav icon color based on active page and determining loader direction
   if (
-    document.querySelector(".active").firstElementChild.innerHTML == "About"
+    document.querySelector(".active").firstElementChild.innerHTML == "About" ||
+    document.querySelector(".active").firstElementChild.innerHTML == "Studies"
   ) {
-    document.querySelector("#aboutNavBar .icon img").style.filter = "invert(1)";
-    document.querySelector("#aboutNavBar svg path").style.fill = "white";
+    document.querySelector(".nav-top-bar .icon img").style.filter = "invert(1)";
+    document.querySelector(".nav-top-bar svg path").style.fill = "white";
+    document.querySelectorAll("#nav-right .box a").forEach((elm) => {
+      elm.style.color = "white";
+    });
+    document.querySelectorAll(".underline").forEach((elm) => {
+      elm.style.backgroundColor = "white";
+    });
     loaderDirection = "toTop";
   } else {
     loaderDirection = "toBottom";
@@ -94,87 +106,190 @@ const activePageHandler = () => {
 const navBarHandler = () => {
   let antiClockrotate = true;
   menuIcon.addEventListener("click", () => {
-    let tl = gsap.timeline();
+    windowWidth = window.innerWidth;
     if (antiClockrotate) {
-      tl.to(menuIcon, {
+      gsap.to(menuIcon, {
         rotate: "-135deg",
         duration: 1,
         ease: "Power1.easeInOut",
-      })
-        .to("#nav-right", {
-          delay: -0.9,
-          display: "flex",
-          transform: "scaleY(1)",
-          duration: 0.2,
-          ease: Power3,
-        })
-        .to(
-          "#nav-right .box",
-          {
-            delay: -0.7,
-            opacity: 1,
-            ease: Power3,
+      });
+      if (windowWidth < 1024) {
+        let smallNavOpenTL = new gsap.timeline();
+        smallNavOpenTL
+          .to("#nav-right", {
             duration: 0.2,
-            stagger: 0.15,
-          },
-          "underline"
-        )
-        .to(
-          ".active .underline",
-          {
-            delay: -1.1,
-            scaleX: "1",
-          },
-          "underline"
-        )
-        .to("#navContact", {
-          opacity: 1,
-          duration: 0.3,
-          ease: Power3,
-          delay: -0.9,
-        });
-
+            ease: Power3,
+            display: "flex",
+            transform: "scaleY(1)",
+          })
+          .to(
+            "#nav-right .box",
+            {
+              delay: -0.2,
+              opacity: 1,
+              ease: Power3,
+              duration: 0.2,
+              stagger: 0.2,
+            },
+            "underline"
+          )
+          .to("#nav-right .box a", {
+            color: "black",
+            delay: -2,
+          })
+          .to(
+            ".active .underline",
+            {
+              delay: -1.1,
+              scaleX: "0",
+            },
+            "underline"
+          )
+          .to("#navContact", {
+            opacity: 1,
+            duration: 0.3,
+            ease: Power3,
+            delay: 0.2,
+          });
+      } else {
+        let largeNavOpenTL = new gsap.timeline();
+        largeNavOpenTL
+          .to("#nav-right", {
+            display: "flex",
+            duration: 0.2,
+            ease: Power3,
+            transform: "scaleY(1)",
+          })
+          .to(
+            "#box1",
+            {
+              x: "300%",
+              ease: Power3,
+              duration: 0.8,
+            },
+            "step1"
+          )
+          .to(
+            "#box2 a",
+            {
+              left: "135%",
+              ease: Power3,
+              duration: 0.5,
+              delay: -0.2,
+            },
+            "step1"
+          )
+          .to(
+            "#box2",
+            {
+              x: "100%",
+              ease: Power3,
+              duration: 0.2,
+            },
+            "step2"
+          )
+          .to(
+            "#box3 a",
+            {
+              x: "135%",
+              ease: Power3,
+              duration: 0.5,
+              delay: -0.5,
+            },
+            "step2"
+          );
+      }
       antiClockrotate = false;
     } else {
-      let tl = gsap.timeline();
-      tl.to(menuIcon, {
+      gsap.to(menuIcon, {
         rotate: "90deg",
         duration: 1,
         ease: Power1,
-      })
-        .to(
-          "#nav-right .box",
-          {
-            delay: -1.2,
+      });
+      if (windowWidth < 1024) {
+        let smallNavCloseTL = gsap.timeline();
+        smallNavCloseTL
+          .to(
+            "#nav-right .box",
+            {
+              delay: -1.2,
+              opacity: 0,
+              ease: Power3,
+              duration: 0.2,
+              stagger: 0.15,
+              reversed: true,
+            },
+            "hide"
+          )
+          .to(
+            ".active .underline",
+            {
+              delay: -1.2,
+              scaleX: "0",
+            },
+            "hide"
+          )
+          .to("#navContact", {
             opacity: 0,
+            duration: 0.1,
             ease: Power3,
-            duration: 0.3,
-            stagger: 0.2,
-            reversed: true,
-          },
-          "hide"
-        )
-        .to(
-          ".active .underline",
-          {
-            delay: -1.2,
-            scaleX: "0",
-          },
-          "hide"
-        )
-        .to("#navContact", {
-          opacity: 0,
-          duration: 0.1,
-          ease: Power3,
-          delay: -1.1,
-        })
-        .to("#nav-right", {
-          delay: 0.1,
-          display: "flex",
-          transform: "scaleY(0)",
-          duration: 0.2,
-          ease: Power3,
-        });
+            delay: -1.1,
+          })
+          .to("#nav-right", {
+            delay: 0.1,
+            display: "none",
+            transform: "scaleY(0)",
+            duration: 0.2,
+            ease: Power3,
+          });
+      } else {
+        let largeNavCloseTL = new gsap.timeline();
+        largeNavCloseTL
+          .to("#nav-right", {
+            duration: 0.2,
+            ease: Power3,
+            transform: "scaleY(1)",
+          })
+          .to(
+            "#box1",
+            {
+              x: "0%",
+              ease: Power3,
+              duration: 0.5,
+            },
+            "step1"
+          )
+          .to(
+            "#box2",
+            {
+              x: "0%",
+              ease: Power3,
+              delay: 0.1,
+              duration: 0.3,
+            },
+            "step1"
+          )
+          .to(
+            "#box2 a",
+            {
+              left: "50%",
+              ease: Power3,
+              duration: 0.5,
+              delay: -0.2,
+            },
+            "step2"
+          )
+          .to(
+            "#box3 a",
+            {
+              x: "0%",
+              ease: Power3,
+              duration: 0.5,
+              delay: -0.5,
+            },
+            "step2"
+          );
+      }
 
       antiClockrotate = true;
     }
@@ -209,7 +324,7 @@ const page2Handler = () => {
 };
 
 //function controlling scrolling to particular section on a page
-const scrollHandler = () => {
+const sectionLinkHandler = () => {
   let arrowElems = document.querySelectorAll(".arrow");
   arrowElems.forEach((arrow) => {
     arrow.addEventListener("click", (evt) => {
@@ -237,99 +352,113 @@ const scrollHandler = () => {
 
 //function to determine order of images based on device
 const page3Handler = () => {
-  let linesArry = document.querySelectorAll(".line");
-  let lineImageArry = [];
-  let index = 0;
-  let imageOrderArry = [];
-  linesArry.forEach((line) => {
-    lineImageArry[index] = line.querySelectorAll(".image-div");
-    index++;
-  });
+  const originalImageArry = [];
+  let ImgContainerArry = document.querySelectorAll(".largeDevice");
 
+  ImgContainerArry.forEach((container) => {
+    originalImageArry.push(container.children);
+  });
   let iterationCount = 0;
-  lineImageArry.forEach((arry) => {
-    currElemLength = arry.length;
+  originalImageArry.forEach((arry) => {
+    let currElemLength = arry.length;
     if (currElemLength > iterationCount) {
       iterationCount = currElemLength;
     }
   });
-  for (let i = 0; i < iterationCount; i++) {
-    for (let line = 0; line < lineImageArry.length; line++) {
-      if (lineImageArry[line][i]) {
-        imageOrderArry.push(lineImageArry[line][i]);
+  if (window.innerWidth < 600) {
+    let sortedImageArry = [];
+    ImgContainerArry.forEach((container) => {
+      container.style.display = "none";
+    });
+
+    for (let i = 0; i < iterationCount; i++) {
+      for (let l = 0; l < originalImageArry.length; l++) {
+        if (originalImageArry[l][i]) {
+          sortedImageArry.push(originalImageArry[l][i].cloneNode(true));
+        }
       }
     }
-  }
-  if (window.innerWidth < 600) {
-    let imageRow = document.getElementById("line1");
-    if (imageRow) {
-      imageRow.style.display = "flex";
-      imageRow.style.gap = "1rem";
-      imageOrderArry.forEach((image) => {
-        imageRow.appendChild(image);
-      });
-    }
-  }
-};
-
-//control logo and nav icon color based on active page
-const menuIconHandler = () => {
-  console.log(currentPage);
-  let menuSVG = document.querySelector(".nav-top-bar svg path");
-  let elem = document.querySelector("#nav-right");
-  let elemDisplay = window.getComputedStyle(elem).display;
-  if (elemDisplay == "none") {
-    //index page navbar color handler
-    if (currentPage.includes("/index.html")) {
-      gsap.to(menuSVG, {
-        scrollTrigger: {
-          trigger: "#page2",
-          scroller: "body",
-          start: "10% 10%",
-          onEnter: () => {
-            menuSVG.style.fill = "white";
-            menuIcon.style.filter = "Invert(1)";
-          },
-          onLeaveBack: () => {
-            menuSVG.style.fill = "black";
-            menuIcon.style.filter = "Invert(0)";
-          },
-        },
-      });
-      gsap.to(menuSVG, {
-        scrollTrigger: {
-          trigger: "#page3",
-          scroller: "body",
-          start: "top 0%",
-          onEnter: () => {
-            menuSVG.style.fill = "black";
-            menuIcon.style.filter = "Invert(0)";
-          },
-          onLeaveBack: () => {
-            menuSVG.style.fill = "white";
-            menuIcon.style.filter = "Invert(1)";
-          },
-        },
-      });
-    }
-    //about page navbar color handler
-    else if (currentPage.includes("about.html")) {
-      gsap.to(menuSVG, {
-        scrollTrigger: {
-          trigger: "#arrow-info",
-          scroller: "body",
-          start: "top 10%",
-          onEnter: () => {
-            menuSVG.style.fill = "black";
-          },
-          onLeaveBack: () => {
-            menuSVG.style.fill = "white";
-          },
-        },
+    let smallDeviceContainer = document.getElementById("line4");
+    if (smallDeviceContainer) {
+      smallDeviceContainer.style.display = "flex";
+      sortedImageArry.forEach((image) => {
+        smallDeviceContainer.appendChild(image);
       });
     }
   } else {
-    console.log("bye");
+    ImgContainerArry.forEach((container) => {
+      container.style.display = "flex";
+      document.getElementById("line4").style.display = "none";
+    });
+  }
+};
+//control logo and nav icon color based on active page
+const navIconHandler = () => {
+  let logo = document.querySelector(".nav-top-bar svg path");
+  let elem = document.querySelector("#nav-right");
+  let anchorElms = document.querySelectorAll("nav a");
+  let elemDisplay = window.getComputedStyle(elem).display;
+  //index page navbar color handler
+  if (currentPage.includes("/index.html")) {
+    gsap.to(logo, {
+      scrollTrigger: {
+        trigger: "#page2",
+        scroller: "body",
+        start: "10% 10%",
+        onEnter: () => {
+          logo.style.fill = "white";
+          menuIcon.style.filter = "Invert(1)";
+          anchorElms.forEach((a) => {
+            a.style.color = "white";
+          });
+        },
+        onLeaveBack: () => {
+          logo.style.fill = "black";
+          menuIcon.style.filter = "Invert(0)";
+          anchorElms.forEach((a) => {
+            a.style.color = "black";
+          });
+        },
+      },
+    });
+    gsap.to(logo, {
+      scrollTrigger: {
+        trigger: "#page3",
+        scroller: "body",
+        start: "top 0%",
+        onEnter: () => {
+          logo.style.fill = "black";
+          menuIcon.style.filter = "Invert(0)";
+          anchorElms.forEach((a) => {
+            a.style.color = "black";
+          });
+        },
+        onLeaveBack: () => {
+          logo.style.fill = "white";
+          menuIcon.style.filter = "Invert(1)";
+          anchorElms.forEach((a) => {
+            a.style.color = "white";
+          });
+        },
+      },
+    });
+  }
+  //about page navbar color handler
+  else if (currentPage.includes("about.html")) {
+    gsap.to(logo, {
+      scrollTrigger: {
+        trigger: "#arrow-info",
+        scroller: "body",
+        start: "top 10%",
+        markers: true,
+        onEnter: () => {
+          logo.style.fill = "black";
+        },
+        onLeaveBack: () => {
+          logo.style.fill = "white";
+        },
+      },
+    });
   }
 };
 
@@ -380,12 +509,37 @@ const navLinkclickHandler = () => {
   });
 };
 
+//on screen resize resetting nav bar and calling function;
+window.addEventListener("resize", () => {
+  windowWidth = window.innerWidth;
+  const navRight = document.querySelector("#nav-right");
+  const boxes = document.querySelectorAll(".box");
+  if (windowWidth < 1024) {
+    navRight.style.display = "none";
+    navRight.style.flexDirection = "column";
+    navRight.style.alignItems = "flex-end";
+    navRight.style.transform = "scaleY (0)";
+    boxes.forEach((box) => {
+      box.style.transform = "translate(0%, 0%)";
+    });
+  } else {
+    navRight.style.display = "flex";
+    navRight.style.flexDirection = "row";
+    navRight.style.alignItems = "center";
+    navRight.style.transform = "scaleY (1)";
+    boxes.forEach((box) => {
+      box.style.transform = "translate(0%, 0%)";
+    });
+  }
+  page3Handler();
+});
+
 //invoking functions
 activePageHandler();
 loaderHandler();
-scrollHandler();
+sectionLinkHandler();
 navBarHandler();
 page2Handler();
 page3Handler();
-menuIconHandler();
+navIconHandler();
 navLinkclickHandler();

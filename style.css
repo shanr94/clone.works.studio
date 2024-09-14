@@ -11,9 +11,6 @@ body {
 }
 
 /* for small devices */
-.main {
-  background-color: black;
-}
 .loader {
   width: 100%;
   height: 100vh;
@@ -29,9 +26,9 @@ body {
 }
 
 .loader h1 {
-  font-size: 2.7rem;
+  font-size: 9vw;
   font-weight: 100;
-  line-height: 2rem;
+  line-height: 2.5rem;
   letter-spacing: -2px;
   position: relative;
   z-index: 8;
@@ -65,9 +62,10 @@ nav {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
+  position: fixed !important;
   top: 0;
-  z-index: 11;
+  z-index: 13;
+  user-select: none;
 }
 .nav-top-bar {
   width: 100%;
@@ -86,15 +84,19 @@ nav svg {
 nav svg path {
   fill: black;
 }
+.logo {
+  z-index: 20;
+}
 .icon {
   padding: 0.2rem;
   border-radius: 50%;
   margin-left: 4rem;
+  z-index: 20;
 }
 .icon img {
   cursor: pointer;
   height: 1.4rem;
-  width: 1.4rem;
+  width: 1.6rem;
 }
 
 #nav-right {
@@ -114,7 +116,13 @@ nav svg path {
   margin-top: 1.2rem;
   height: 2rem;
   opacity: 0;
-  transition: opacity ease 0.5s;
+  transition: opacity ease 1s;
+  overflow: hidden;
+  z-index: 24;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 #nav-right .box a {
   color: black;
@@ -132,9 +140,18 @@ nav svg path {
   background-color: black;
   transition: all ease 0.5s;
 }
+
+.active {
+  border-bottom: 1px solid white;
+}
 #nav-right .box:hover .underline {
   transform: scaleX(1);
+  border-bottom: none;
 }
+#nav-right .box:hover > .active {
+  border-bottom: none;
+}
+
 #navContact {
   opacity: 0;
   width: 100%;
@@ -153,7 +170,6 @@ nav svg path {
   font-weight: 600;
   font-size: 1.1rem;
 }
-
 #page1 {
   width: 100%;
   height: 100vh;
@@ -163,9 +179,9 @@ nav svg path {
 }
 #page1 h1 {
   padding: 1rem 2rem;
-  font-size: 2.7rem;
+  font-size: 9vw;
   font-weight: 100;
-  line-height: 2rem;
+  line-height: 2.5rem;
   letter-spacing: -2px;
   position: relative;
   top: 50%;
@@ -238,7 +254,7 @@ nav svg path {
 .moving .blur {
   width: 45%;
   height: 100%;
-  background: linear-gradient(to right, #f5e31bb2, #f5e41b, #f5e31bb2);
+  background: linear-gradient(to right, #f5e31bea, #f5e41b, #f5e31bea);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -254,6 +270,7 @@ nav svg path {
   animation-timing-function: linear;
   animation-duration: 5s;
   animation-iteration-count: infinite;
+  padding: 2px;
 }
 .moving .moving-in h5 {
   display: inline-block;
@@ -328,11 +345,12 @@ nav svg path {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   z-index: 12;
   transition: all ease 0.5s;
 }
 .overlay p {
-  font-size: 3rem;
+  font-size: 2.2rem;
   text-transform: uppercase;
   text-align: center;
   color: white;
@@ -351,12 +369,11 @@ nav svg path {
 }
 .footer {
   width: 100%;
-  height: 30vh;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  padding: 1.5rem 0;
   background-color: #fff;
 }
 .footer a {
@@ -419,4 +436,166 @@ nav svg path {
 .rightAlign .item:hover .underline {
   filter: invert(1);
   transform: scaleX(1);
+}
+
+/* about page CSS */
+#about-page1 {
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.childPgNavBar {
+  mix-blend-mode: difference;
+}
+
+#about-page1 video {
+  width: 100%;
+  height: 25vh;
+  object-fit: cover;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+}
+.info {
+  width: 100%;
+  height: fit-content;
+  padding: 3rem 2rem;
+}
+
+.info p {
+  font-weight: 100;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+#clients-Services {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+.container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.heading {
+  text-transform: uppercase;
+  font-family: Gilroy !important;
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 4.5rem;
+}
+.container ul {
+  list-style: none;
+}
+.category {
+  font-weight: 100;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+}
+#about-page2 {
+  width: 100%;
+  height: fit-content;
+  background-color: #f5e41b;
+  color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.contactUs {
+  padding: 2rem 2rem;
+  align-self: flex-start;
+}
+.contactUs a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  font-style: italic;
+  font-weight: 100;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+}
+.page2Footer {
+  margin: 4rem 0 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.page2Footer h2 {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.child-footer {
+  background-color: black;
+  align-items: flex-start;
+  padding: 3rem 2rem;
+  height: fit-content !important;
+}
+.child-footer a {
+  color: white !important;
+  font-size: 0.95rem !important;
+}
+.arrow i {
+  font-weight: 200;
+}
+.menuColor {
+  fill: black;
+}
+#arrow-info {
+  padding: 1rem 0;
+}
+
+/* studies page CSS */
+#studies-page1 {
+  background-color: black;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+  padding: 8rem 2rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+.content {
+  position: relative;
+  width: 100%;
+  height: 12vh;
+  text-align: center;
+}
+.content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s;
+}
+.textOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.textOverlay h4 {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 200;
+  text-transform: uppercase;
+  font-style: italic;
+}
+#displayText {
+  display: none;
 }
