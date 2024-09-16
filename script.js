@@ -14,8 +14,9 @@ let loaderDirection = "";
 //declaring variable to store activePage info that will be used in code for dynamic page functions
 let currentPage = window.location.pathname;
 //variable to store window's width
-let windowWidth;
-
+let windowWidth = window.innerWidth;
+//declaring variable to store device type
+let isLargeDevice = false;
 //function controling loader functionality when page is refreshed. A small Video plays and vanishes.
 const loaderHandler = () => {
   let tl = gsap.timeline();
@@ -75,18 +76,22 @@ const loaderHandler = () => {
 const activePageHandler = () => {
   navLinks.forEach((link) => {
     //underline active page
-    if (link.href.includes(currentPage) || link.href.includes("studies")) {
+    if (link.href.includes(currentPage)) {
       link.parentElement.classList.add("active");
-    } else {
-      if (!link.href.includes("index.html")) {
-        link.parentElement.classList.remove("active");
+      if (currentPage.includes("index.html")) {
+        link.parentElement.querySelector(".underline").style.display = "none";
       }
+    } else {
+      link.parentElement.classList.remove("active");
     }
   });
+
   //setting logo and nav icon color based on active page and determining loader direction
+  let activeElem = document.querySelector(".active");
+  activeElem.gete;
   if (
-    document.querySelector(".active").firstElementChild.innerHTML == "About" ||
-    document.querySelector(".active").firstElementChild.innerHTML == "Studies"
+    activeElem.firstElementChild.innerHTML == "About" ||
+    activeElem.firstElementChild.innerHTML == "Studies"
   ) {
     document.querySelector(".nav-top-bar .icon img").style.filter = "invert(1)";
     document.querySelector(".nav-top-bar svg path").style.fill = "white";
@@ -103,10 +108,10 @@ const activePageHandler = () => {
 };
 
 //function controlling display of nav menu when nav icon is clicked
+
 const navBarHandler = () => {
   let antiClockrotate = true;
   menuIcon.addEventListener("click", () => {
-    windowWidth = window.innerWidth;
     if (antiClockrotate) {
       gsap.to(menuIcon, {
         rotate: "-135deg",
@@ -133,10 +138,13 @@ const navBarHandler = () => {
             },
             "underline"
           )
-          .to("#nav-right .box a", {
-            color: "black",
-            delay: -2,
-          })
+          .to(
+            "#nav-right .box a",
+            {
+              color: "black",
+            },
+            "underline"
+          )
           .to(
             ".active .underline",
             {
@@ -154,47 +162,58 @@ const navBarHandler = () => {
       } else {
         let largeNavOpenTL = new gsap.timeline();
         largeNavOpenTL
-          .to("#nav-right", {
-            display: "flex",
-            duration: 0.2,
-            ease: Power3,
-            transform: "scaleY(1)",
+          .to(".active .underline", {
+            opacity: 0,
+            duration: 0.01,
+            ease: Power1,
           })
           .to(
-            "#box1",
+            ".box a",
             {
-              x: "300%",
-              ease: Power3,
-              duration: 0.8,
-            },
-            "step1"
-          )
-          .to(
-            "#box2 a",
-            {
-              left: "135%",
-              ease: Power3,
+              x: "120%",
               duration: 0.5,
-              delay: -0.2,
+              ease: Power1,
+              stagger: 0.2,
+              delay: 0.2,
             },
             "step1"
           )
           .to(
-            "#box2",
+            ".box",
             {
-              x: "100%",
+              display: "none",
+              duration: 0.8,
+              ease: Power1,
+            },
+            "step1"
+          )
+          .to(
+            ".active",
+            {
+              delay: 0.2,
+              display: "flex",
+              right: 0,
               ease: Power3,
-              duration: 0.2,
+              opacity: 1,
             },
             "step2"
           )
           .to(
-            "#box3 a",
+            ".active  .underline",
             {
-              x: "135%",
-              ease: Power3,
+              opacity: 1,
+              transform: "scaleX(1)",
               duration: 0.5,
-              delay: -0.5,
+              ease: Power3,
+            },
+            "step2"
+          )
+          .to(
+            ".active a",
+            {
+              x: "0%",
+              ease: Power3,
+              duration: 1,
             },
             "step2"
           );
@@ -213,7 +232,6 @@ const navBarHandler = () => {
             "#nav-right .box",
             {
               delay: -1.2,
-              opacity: 0,
               ease: Power3,
               duration: 0.2,
               stagger: 0.15,
@@ -245,58 +263,57 @@ const navBarHandler = () => {
       } else {
         let largeNavCloseTL = new gsap.timeline();
         largeNavCloseTL
-          .to("#nav-right", {
-            duration: 0.2,
-            ease: Power3,
-            transform: "scaleY(1)",
+          .to(".active", {
+            opacity: 0,
+            duration: 0.1,
           })
           .to(
-            "#box1",
+            ".box",
             {
-              x: "0%",
-              ease: Power3,
-              duration: 0.5,
+              delay: 0.2,
+              display: "flex",
+              duration: 0.8,
+              ease: Power1,
             },
-            "step1"
+            "visible"
           )
           .to(
-            "#box2",
+            ".active",
             {
-              x: "0%",
-              ease: Power3,
               delay: 0.1,
-              duration: 0.3,
+              opacity: 1,
+              duration: 0.1,
+            },
+            "visible"
+          )
+          .from(
+            ".active",
+            {
+              delay: 0.1,
+              x: "290%",
+              ease: Power1,
+              duration: 1,
             },
             "step1"
           )
           .to(
-            "#box2 a",
+            ".box a",
             {
-              left: "50%",
-              ease: Power3,
-              duration: 0.5,
-              delay: -0.2,
-            },
-            "step2"
-          )
-          .to(
-            "#box3 a",
-            {
+              delay: 0.5,
               x: "0%",
-              ease: Power3,
-              duration: 0.5,
-              delay: -0.5,
+              duration: 0.8,
+              ease: Power1,
+              stagger: 0.2,
             },
-            "step2"
+            "step1"
           );
       }
-
       antiClockrotate = true;
     }
   });
 };
 
-//function controling endless movement of background text
+// //function controling endless movement of background text
 const page2Handler = () => {
   let elems = document.querySelectorAll("#page2 .elem");
   let page2 = document.querySelector("#page2");
@@ -323,7 +340,7 @@ const page2Handler = () => {
   }, 5000);
 };
 
-//function controlling scrolling to particular section on a page
+// //function controlling scrolling to particular section on a page
 const sectionLinkHandler = () => {
   let arrowElems = document.querySelectorAll(".arrow");
   arrowElems.forEach((arrow) => {
@@ -350,7 +367,7 @@ const sectionLinkHandler = () => {
   });
 };
 
-//function to determine order of images based on device
+// //function to determine order of images based on device
 const page3Handler = () => {
   const originalImageArry = [];
   let ImgContainerArry = document.querySelectorAll(".largeDevice");
@@ -392,12 +409,11 @@ const page3Handler = () => {
     });
   }
 };
-//control logo and nav icon color based on active page
+// //control logo and nav icon color based on active page
 const navIconHandler = () => {
   let logo = document.querySelector(".nav-top-bar svg path");
-  let elem = document.querySelector("#nav-right");
   let anchorElms = document.querySelectorAll("nav a");
-  let elemDisplay = window.getComputedStyle(elem).display;
+  let underlineElems = document.querySelectorAll("nav .underline");
   //index page navbar color handler
   if (currentPage.includes("/index.html")) {
     gsap.to(logo, {
@@ -411,12 +427,18 @@ const navIconHandler = () => {
           anchorElms.forEach((a) => {
             a.style.color = "white";
           });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "white";
+          });
         },
         onLeaveBack: () => {
           logo.style.fill = "black";
           menuIcon.style.filter = "Invert(0)";
           anchorElms.forEach((a) => {
             a.style.color = "black";
+          });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "black";
           });
         },
       },
@@ -432,12 +454,18 @@ const navIconHandler = () => {
           anchorElms.forEach((a) => {
             a.style.color = "black";
           });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "black";
+          });
         },
         onLeaveBack: () => {
           logo.style.fill = "white";
           menuIcon.style.filter = "Invert(1)";
           anchorElms.forEach((a) => {
             a.style.color = "white";
+          });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "white";
           });
         },
       },
@@ -447,15 +475,28 @@ const navIconHandler = () => {
   else if (currentPage.includes("about.html")) {
     gsap.to(logo, {
       scrollTrigger: {
-        trigger: "#arrow-info",
+        trigger: "#about-page2",
         scroller: "body",
         start: "top 10%",
-        markers: true,
         onEnter: () => {
           logo.style.fill = "black";
+          menuIcon.style.filter = "Invert(0)";
+          anchorElms.forEach((a) => {
+            a.style.color = "black";
+          });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "black";
+          });
         },
         onLeaveBack: () => {
           logo.style.fill = "white";
+          menuIcon.style.filter = "Invert(1)";
+          anchorElms.forEach((a) => {
+            a.style.color = "white";
+          });
+          underlineElems.forEach((line) => {
+            line.style.backgroundColor = "white";
+          });
         },
       },
     });
@@ -463,78 +504,101 @@ const navIconHandler = () => {
 };
 
 //function controling nav menu display when nav links are clicked
-const navLinkclickHandler = () => {
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      let tl = gsap.timeline();
-      tl.to(menuIcon, {
-        rotate: "90deg",
-        duration: 1,
-        ease: Power1,
-      })
-        .to(
-          "#nav-right .box",
-          {
-            delay: -1.2,
-            opacity: 0,
-            ease: Power3,
-            duration: 0.3,
-            stagger: 0.2,
-            reversed: true,
-          },
-          "hide"
-        )
-        .to(
-          ".active .underline",
-          {
-            delay: -1.2,
-            scaleX: "0",
-          },
-          "hide"
-        )
-        .to("#navContact", {
-          opacity: 0,
-          duration: 0.1,
-          ease: Power3,
-          delay: -1.1,
-        })
-        .to("#nav-right", {
-          delay: 0.1,
-          display: "flex",
-          transform: "scaleY(0)",
-          duration: 0.2,
-          ease: Power3,
-        });
-    });
-  });
-};
+// const navLinkclickHandler = () => {
+//   navLinks.forEach((link) => {
+//     link.addEventListener("click", (evt) => {
+//       window.onload = console.log(evt);
+//       let tl = gsap.timeline();
+//       tl.to(menuIcon, {
+//         rotate: "90deg",
+//         duration: 1,
+//         ease: Power1,
+//       })
+//         .to(
+//           "#nav-right .box",
+//           {
+//             delay: -1.2,
+//             opacity: 0,
+//             ease: Power3,
+//             duration: 0.3,
+//             stagger: 0.2,
+//             reversed: true,
+//           },
+//           "hide"
+//         )
+//         .to(
+//           ".active .underline",
+//           {
+//             delay: -1.2,
+//             scaleX: "0",
+//           },
+//           "hide"
+//         )
+//         .to("#navContact", {
+//           opacity: 0,
+//           duration: 0.1,
+//           ease: Power3,
+//           delay: -1.1,
+//         })
+//         .to("#nav-right", {
+//           delay: 0.1,
+//           display: "flex",
+//           transform: "scaleY(0)",
+//           duration: 0.2,
+//           ease: Power3,
+//         });
+//     });
+//   });
+// };
 
-//on screen resize resetting nav bar and calling function;
-window.addEventListener("resize", () => {
-  windowWidth = window.innerWidth;
+//function to reset nav bar on window resize
+function resetNavIcon(isLargeDevice) {
   const navRight = document.querySelector("#nav-right");
   const boxes = document.querySelectorAll(".box");
-  if (windowWidth < 1024) {
+  const links = document.querySelectorAll(".box a");
+  menuIcon.style.transform = "rotate(0)";
+  if (isLargeDevice) {
+    navRight.style.display = "flex";
+    navRight.style.flexDirection = "row";
+    navRight.style.alignItems = "center";
+    navRight.style.transform = "scale(1)";
+    boxes.forEach((box) => {
+      box.style.transform = "unset";
+    });
+  } else {
     navRight.style.display = "none";
     navRight.style.flexDirection = "column";
     navRight.style.alignItems = "flex-end";
     navRight.style.transform = "scaleY (0)";
     boxes.forEach((box) => {
-      box.style.transform = "translate(0%, 0%)";
+      box.style.right = "unset";
+      box.style.display = "flex";
     });
-  } else {
-    navRight.style.display = "flex";
-    navRight.style.flexDirection = "row";
-    navRight.style.alignItems = "center";
-    navRight.style.transform = "scaleY (1)";
-    boxes.forEach((box) => {
-      box.style.transform = "translate(0%, 0%)";
+    links.forEach((link) => {
+      link.style.transform = "unset";
+      link.style.color = "black";
     });
+    document.querySelector(".active").style.position = "relative";
   }
-  page3Handler();
-});
+}
+
+//on screen resize resetting nav bar and calling function;
+const resizeHandler = () => {
+  window.addEventListener("resize", () => {
+    windowWidth = window.innerWidth;
+    if (windowWidth < 1024) {
+      isLargeDevice = false;
+      resetNavIcon(isLargeDevice);
+    } else {
+      isLargeDevice = true;
+      resetNavIcon(isLargeDevice);
+      page3Handler();
+    }
+  });
+};
 
 //invoking functions
+resizeHandler();
 activePageHandler();
 loaderHandler();
 sectionLinkHandler();
@@ -542,4 +606,3 @@ navBarHandler();
 page2Handler();
 page3Handler();
 navIconHandler();
-navLinkclickHandler();
