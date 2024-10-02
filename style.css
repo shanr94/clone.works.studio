@@ -13,7 +13,7 @@ body {
 /* for small devices */
 .loader {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   background-color: black;
   color: white;
@@ -62,7 +62,7 @@ nav {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  position: fixed !important;
+  position: fixed;
   top: 0;
   z-index: 13;
   user-select: none;
@@ -106,16 +106,14 @@ nav svg path {
   position: absolute;
   top: 0;
   z-index: 14;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   display: none;
   flex-direction: column;
   align-items: flex-end;
   transform: scaleY(0);
 }
 #nav-right .box {
-  margin-top: 1.2rem;
-  height: 2rem;
-  opacity: 0;
+  padding: 0.5rem;
   transition: opacity ease 1s;
   overflow: hidden;
   z-index: 24;
@@ -205,7 +203,7 @@ nav svg path {
   font-size: 2.5rem;
   font-weight: 800;
   opacity: 0.3;
-  padding-bottom: 0.5rem;
+  padding-bottom: 2.5rem;
   border-radius: 50%;
 }
 #page2 {
@@ -304,20 +302,34 @@ nav svg path {
 #page3 {
   width: 100%;
   height: fit-content;
+  padding: 3rem 0;
   background-color: White;
-  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
-.image-container {
-  width: 100%;
+.largeDevice-IMGcontainer,
+.smallDevice-IMGcontainer {
+  width: 90%;
+  height: fit-content;
   padding: 1rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
 }
-.line {
-  display: none;
+.largeDevice {
+  display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+}
+#smallDevice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   gap: 2rem;
 }
 .image-div {
@@ -328,7 +340,6 @@ nav svg path {
 }
 .image-div img {
   width: 100%;
-  height: 100%;
   object-fit: cover;
   transition: all ease 0.5s;
 }
@@ -364,19 +375,21 @@ nav svg path {
 }
 .footer {
   width: 100%;
-  min-height: 10rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: column;
-  background-color: #fff;
   gap: 1rem;
+  position: relative;
+  bottom: 0;
 }
 .footer .arrow {
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .footer a {
   text-decoration: none;
@@ -399,7 +412,7 @@ nav svg path {
 #foot {
   width: 100%;
   background-color: black;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -417,7 +430,7 @@ nav svg path {
   align-items: flex-start;
 }
 .rightAlign .item {
-  margin-top: 1.2rem;
+  margin-top: 1.1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -461,28 +474,32 @@ nav svg path {
 }
 
 .textContent {
+  padding-top: 10vh;
   display: flex;
   flex-direction: column;
+}
+#page1Text {
+  padding-top: 0;
 }
 .info {
   width: 100%;
   height: fit-content;
-  padding: 3rem 2rem;
+  padding: 3rem;
 }
 
 .info p {
-  font-weight: 100;
-  font-size: 1.25rem;
-  line-height: 1.5rem;
+  font-weight: 200;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
 }
 #clients-Services {
+  padding: 3rem;
   align-self: stretch;
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .container {
-  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -491,7 +508,7 @@ nav svg path {
   text-transform: uppercase;
   font-family: Gilroy !important;
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   line-height: 4.5rem;
 }
 .container ul {
@@ -504,12 +521,12 @@ nav svg path {
 }
 #about-page2 {
   width: 100%;
-  height: fit-content;
+  height: 80vh;
   background-color: #f5e41b;
   color: black;
 }
 .contactUs {
-  padding: 2rem 2rem;
+  padding: 3rem;
   align-self: flex-start;
 }
 .contactUs a {
@@ -533,6 +550,7 @@ nav svg path {
 }
 .arrow i {
   font-weight: 200;
+  cursor: pointer;
 }
 .child-footer .arrow i {
   filter: invert(1);
