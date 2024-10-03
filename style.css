@@ -75,7 +75,8 @@ nav {
   justify-content: space-between;
   position: absolute;
   z-index: 15;
-  padding: 1rem 2rem;
+  padding: 1rem;
+  padding-right: 0.3rem;
 }
 nav svg {
   width: 5.7rem;
@@ -301,9 +302,8 @@ nav svg path {
 }
 #page3 {
   width: 100%;
-  height: fit-content;
-  padding: 3rem 0;
-  background-color: White;
+  height: 100%;
+  background-color: white;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -311,14 +311,24 @@ nav svg path {
 .largeDevice-IMGcontainer,
 .smallDevice-IMGcontainer {
   width: 90%;
-  height: fit-content;
+  height: 100%;
   padding: 1rem;
-  display: flex;
+}
+.largeDevice-IMGcontainer {
+  display: none;
   align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
 }
+.smallDevice-IMGcontainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
 .largeDevice {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -326,6 +336,7 @@ nav svg path {
   gap: 2rem;
 }
 #smallDevice {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -340,6 +351,7 @@ nav svg path {
 }
 .image-div img {
   width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: all ease 0.5s;
 }
@@ -355,6 +367,14 @@ nav svg path {
   z-index: 12;
   transition: all ease 0.5s;
 }
+#smallDevice p {
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-align: left;
+  color: black;
+  transition: all ease 0.5s;
+  opacity: 1;
+}
 .overlay p {
   font-size: 2.2rem;
   text-transform: uppercase;
@@ -364,15 +384,16 @@ nav svg path {
   opacity: 0;
 }
 
-.image-div:hover .overlay {
+.largeDevice .image-div:hover .overlay {
   background-color: black;
 }
-.image-div:hover .overlay p {
+.largeDevice .image-div:hover .overlay p {
   opacity: 1;
 }
-.image-div:hover img {
+.largeDevice .image-div:hover img {
   scale: 1.1;
 }
+
 .footer {
   width: 100%;
   display: flex;
@@ -390,6 +411,7 @@ nav svg path {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 .footer a {
   text-decoration: none;
@@ -493,7 +515,7 @@ nav svg path {
   line-height: 1.2rem;
 }
 #clients-Services {
-  padding: 3rem;
+  padding: 3rem 2rem;
   align-self: stretch;
   display: flex;
   align-items: flex-start;
@@ -504,15 +526,23 @@ nav svg path {
   flex-direction: column;
   align-items: flex-start;
 }
+.headingContainer {
+  width: 100%;
+  height: 20vw;
+  text-wrap: wrap;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
 .heading {
   text-transform: uppercase;
   font-family: Gilroy !important;
   font-weight: 500;
   font-size: 1.1rem;
-  line-height: 4.5rem;
 }
 .container ul {
   list-style: none;
+  padding-left: 5px;
 }
 .category {
   font-weight: 100;

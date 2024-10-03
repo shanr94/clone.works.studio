@@ -12,7 +12,7 @@ let loaderDirection = "toBottom";
 let currentPage = window.location.pathname;
 let imagesArry = [];
 let sortedImageArry = [];
-
+let elmCountInRow = 0;
 //function controling loader functionality when page is refreshed. A small Video plays and vanishes.
 function loaderHandler() {
   let tl = gsap.timeline();
@@ -273,7 +273,7 @@ function navBarHandler() {
           .from(
             ".active",
             {
-              x: "285%",
+              x: "250%",
               ease: Power1,
               duration: 1,
             },
@@ -358,7 +358,7 @@ function navIconHandler() {
     });
   }
   //about page navbar color handler
-  else if (currentPage.includes("about.html")) {
+  else if (currentPage.includes("/about.html")) {
     gsap.to(logo, {
       scrollTrigger: {
         trigger: "#about-page2",
@@ -496,7 +496,7 @@ function sectionLinkHandler() {
   let arrowElems = document.querySelectorAll(".arrow");
   arrowElems.forEach((arrow) => {
     arrow.addEventListener("click", (evt) => {
-      evt.preventDefault;
+      // evt.preventDefault;
       let scrollToElem;
       if (currentPage.includes("index.html")) {
         if (evt.target.parentElement.id == "arrow-contactInfo") {
@@ -517,47 +517,7 @@ function sectionLinkHandler() {
     });
   });
 }
-//function to sort images
-function updateSmallDeviceImages() {
-  largeImageContainers.forEach((container) => {
-    imagesArry.push(container.children);
-  });
-  let iterationCount = 0;
-  imagesArry.forEach((arry) => {
-    let currElemLength = arry.length;
-    if (currElemLength > iterationCount) {
-      iterationCount = currElemLength;
-    }
-  });
-  for (let i = 0; i < iterationCount; i++) {
-    for (let l = 0; l < imagesArry.length; l++) {
-      if (imagesArry[l][i]) {
-        sortedImageArry.push(imagesArry[l][i].cloneNode(true));
-      }
-    }
-  }
-  sortedImageArry.forEach((image) => {
-    smallImageContainer.appendChild(image);
-  });
-}
-//function to display images according to large or small device
-function page3Handler() {
-  let smallDeviceContainer = document.querySelector(
-    ".smallDevice-IMGcontainer"
-  );
-  let largeDeviceContainer = document.querySelector(
-    ".largeDevice-IMGcontainer"
-  );
-  if (smallDeviceContainer || largeDeviceContainer) {
-    if (window.innerWidth < 700) {
-      smallDeviceContainer.style.display = "flex";
-      largeDeviceContainer.style.display = "none";
-    } else {
-      largeDeviceContainer.style.display = "flex";
-      smallDeviceContainer.style.display = "none";
-    }
-  }
-}
+
 //on screen resize resetting nav bar and page3 images layout
 function resizeHandler() {
   window.addEventListener("resize", () => {
@@ -566,18 +526,15 @@ function resizeHandler() {
     } else {
       resetNavIcon(true);
     }
-    page3Handler();
   });
 }
 //invoking functions
 window.addEventListener("load", () => {
-  updateSmallDeviceImages();
   navIconHandler();
   activePageHandler();
   loaderHandler();
   sectionLinkHandler();
   navBarHandler();
   page2Handler();
-  page3Handler();
   resizeHandler();
 });
