@@ -392,7 +392,6 @@ function navIconHandler() {
 function navLinkclickHandler() {
   navLinks.forEach((link) => {
     link.addEventListener("click", (evt) => {
-      window.onload = console.log(evt);
       let tl = gsap.timeline();
       tl.to(menuIcon, {
         rotate: "90deg",
