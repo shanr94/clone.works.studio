@@ -519,22 +519,18 @@ function sectionLinkHandler() {
 }
 
 //on screen resize resetting nav bar and page3 images layout
-function resizeHandler() {
-  window.addEventListener("resize", () => {
-    if (window.innerWidth < 1024) {
-      resetNavIcon(false);
-    } else {
-      resetNavIcon(true);
-    }
-  });
-}
-//invoking functions
-window.addEventListener("load", () => {
-  navIconHandler();
-  activePageHandler();
-  loaderHandler();
-  sectionLinkHandler();
-  navBarHandler();
-  page2Handler();
-  resizeHandler();
+window.addEventListener("resize", () => {
+  if (window.innerWidth < 1024) {
+    resetNavIcon(false);
+  } else {
+    resetNavIcon(true);
+  }
 });
+
+//invoking functions
+navIconHandler();
+activePageHandler();
+loaderHandler();
+sectionLinkHandler();
+navBarHandler();
+page2Handler();
