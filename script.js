@@ -495,7 +495,7 @@ function sectionLinkHandler() {
   let arrowElems = document.querySelectorAll(".arrow");
   arrowElems.forEach((arrow) => {
     arrow.addEventListener("click", (evt) => {
-      // evt.preventDefault;
+      evt.preventDefault;
       let scrollToElem;
       if (currentPage.includes("index.html")) {
         if (evt.target.parentElement.id == "arrow-contactInfo") {
